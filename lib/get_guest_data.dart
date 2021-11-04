@@ -1,3 +1,6 @@
+import 'dart:html';
+import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'guest.dart';
@@ -5,13 +8,10 @@ import 'guest_data_source.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_datagrid_export/export.dart';
 import 'dart:convert';
+
 // ignore: avoid_web_libraries_in_flutter
-//import 'dart:html';
-import 'dart:io';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart'
     hide Alignment, Column, Row;
-
-import 'home.dart';
 
 class GetGuestData extends StatefulWidget {
   const GetGuestData({Key? key}) : super(key: key);
@@ -75,15 +75,45 @@ class _GetGuestDataState extends State<GetGuestData> {
             guestList.add(g.data() as Guest);
           }
 
+          List<ExcelDataRow> _buildReportDataRows() {
+            List<ExcelDataRow> excelDataRows = <ExcelDataRow>[];
 
-          Future<void> exportDataGridToExcel() async {
-            final Workbook workbook = Workbook();
-            final Worksheet worksheet = workbook.worksheets[0];
-            _key.currentState!.exportToExcelWorksheet(worksheet);
-            final List<int> bytes = workbook.saveAsStream();
-            File('DataGrid.xlsx').writeAsBytes(bytes, flush: true);
+            excelDataRows = guestList.map<ExcelDataRow>((Guest e) {
+              return ExcelDataRow(cells: <ExcelDataCell>[
+                ExcelDataCell(columnHeader: 'name', value: e.nName),
+                ExcelDataCell(columnHeader: 'name', value: e.vName),
+                ExcelDataCell(columnHeader: 'location', value: e.location),
+                ExcelDataCell(
+                    columnHeader: 'Entry Time',
+                    value:
+                    DateFormat('yyyy-MM-dd – kk:mm').format(e.entryTime)),
+                ExcelDataCell(columnHeader: 'email', value: e.email),
+                ExcelDataCell(columnHeader: 'phone', value: e.phone),
+              ]);
+            }).toList();
+
+            return excelDataRows;
           }
 
+          Future<void> exportDataGridToExcel() async {
+            //  final Workbook workbook = _key.currentState!.exportToExcelWorkbook();
+
+            //  final List<int> bytes = workbook.saveAsStream();
+            // File('DataGrid.xlsx').writeAsBytes(bytes, flush: true);
+            final Workbook workbook = Workbook();
+            final Worksheet sheet = workbook.worksheets[0];
+            sheet.importList(guestList, 1, 1, true);
+            final List<ExcelDataRow> dataRows = _buildReportDataRows();
+            sheet.importData(dataRows, 1, 1);
+            final List<int> bytes = workbook.saveAsStream();
+            workbook.dispose();
+
+            AnchorElement(
+                href:
+                    "data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}")
+              ..setAttribute("download", "GuestData.xlsx")
+              ..click();
+          }
 
           return Scaffold(
               backgroundColor: const Color(0xffffffff),
@@ -94,8 +124,7 @@ class _GetGuestDataState extends State<GetGuestData> {
                 actions: <Widget>[
                   IconButton(
                       icon: const Icon(Icons.download_rounded),
-                      onPressed: ()  => exportDataGridToExcel()
-                      ),
+                      onPressed: () => exportDataGridToExcel()),
                   //     IconButton(
                   //     onPressed: exportDataGridToExcel,
                   //         icon: const Icon(Icons.airplane_ticket))

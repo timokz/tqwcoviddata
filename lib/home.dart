@@ -78,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               child:
                                   SnackBar(content: Text("Falsches Passwort")))
                       },
-                  child: Text("Check")), //    Center(child:),
+                  child: const Text("Check")), //    Center(child:),
             ],
           )),
       // This trailing comma makes auto-formatting nicer for build methods.
