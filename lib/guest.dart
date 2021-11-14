@@ -21,6 +21,11 @@ class Guest {
     this.phone = phone;
   }
 
+  @override
+  String toString() {
+    return 'Guest{vName: $vName, nName: $nName, email: $email, location: $location, entryTime: $entryTime, phone: $phone, guests: $guests}';
+  }
+
   Guest.fromJson(Map<String, Object?> json)
       : this(
             vName: json['v_name']! as String,

@@ -31,21 +31,35 @@ class _GetGuestDataState extends State<GetGuestData> {
           fromFirestore: (snapshots, _) => Guest.fromJson(snapshots.data()!),
           toFirestore: (guest, _) => guest.toJson(),
         );
+/*
+    void printOldest(List<Guest> guestList) {
+      print("oldest entry: ");
+      Guest oldest = guestList.first;
+      for (var g in guestList){
+        if (g.entryTime.isBefore(oldest.entryTime)) {
+          oldest = g;
+        }
+      }
+      print (oldest.toString());
+    } */
 
+    //checks if any Guest entries are older than 28 days, and removes them from the DB
     void guestDataTimeCheck() {
-      int cutoff = DateTime.now()
-          .subtract(const Duration(days: 28))
-          .toUtc()
-          .millisecondsSinceEpoch;
+      DateTime cut = DateTime.now().subtract(const Duration(days: 28));
+      //     .toUtc()
+      //  .millisecondsSinceEpoch;
+      Timestamp cutoff = Timestamp.fromDate(cut);
+
       FirebaseFirestore.instance
           .collection('guests')
-          .where('entryTime', isGreaterThanOrEqualTo: cutoff)
+          .where('entryTime', isLessThanOrEqualTo: cutoff)
           .get()
           .then((QuerySnapshot query) {
         for (DocumentSnapshot doc in query.docs) {
           Map<String, dynamic> map = doc.data() as Map<String, dynamic>;
           DateTime dt = (map['entryTime'] ??= Timestamp.now()).toDate();
-          print(dt.toString());
+          print(map['n_name'] + "  " + dt.toString());
+          FirebaseFirestore.instance.collection('guests').doc(doc.id).delete();
         }
       });
     }
@@ -66,14 +80,16 @@ class _GetGuestDataState extends State<GetGuestData> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
-          print("Guest Data Time Check: ");
-          guestDataTimeCheck();
+
           final data = snapshot.requireData;
 
           List<Guest> guestList = [];
           for (var g in data.docs) {
             guestList.add(g.data() as Guest);
           }
+        //  printOldest(guestList);
+      //    print("Guest Data Time Check: ");
+          guestDataTimeCheck();
 
           List<ExcelDataRow> _buildReportDataRows() {
             List<ExcelDataRow> excelDataRows = <ExcelDataRow>[];
@@ -86,7 +102,7 @@ class _GetGuestDataState extends State<GetGuestData> {
                 ExcelDataCell(
                     columnHeader: 'Entry Time',
                     value:
-                    DateFormat('yyyy-MM-dd – kk:mm').format(e.entryTime)),
+                        DateFormat('yyyy-MM-dd – kk:mm').format(e.entryTime)),
                 ExcelDataCell(columnHeader: 'email', value: e.email),
                 ExcelDataCell(columnHeader: 'phone', value: e.phone),
               ]);

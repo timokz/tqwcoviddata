@@ -66,8 +66,8 @@ class _AppState extends State<App> {
                 backgroundColor: const Color(0xffffffff),
                 fontFamily: 'Roboto',
               ),
-              home: HomeScreen() //HomeScreen(),
-//home: GetGuestData(),
+          //    home: HomeScreen()
+home: GetGuestData(),
               //    home: const HomeScreen());
               );
         }
