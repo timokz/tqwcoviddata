@@ -46,8 +46,6 @@ class _GetGuestDataState extends State<GetGuestData> {
     //checks if any Guest entries are older than 28 days, and removes them from the DB
     void guestDataTimeCheck() {
       DateTime cut = DateTime.now().subtract(const Duration(days: 28));
-      //     .toUtc()
-      //  .millisecondsSinceEpoch;
       Timestamp cutoff = Timestamp.fromDate(cut);
 
       FirebaseFirestore.instance
@@ -58,7 +56,7 @@ class _GetGuestDataState extends State<GetGuestData> {
         for (DocumentSnapshot doc in query.docs) {
           Map<String, dynamic> map = doc.data() as Map<String, dynamic>;
           DateTime dt = (map['entryTime'] ??= Timestamp.now()).toDate();
-          print(map['n_name'] + "  " + dt.toString());
+          // print(map['n_name'] + "  " + dt.toString());
           FirebaseFirestore.instance.collection('guests').doc(doc.id).delete();
         }
       });
@@ -87,8 +85,6 @@ class _GetGuestDataState extends State<GetGuestData> {
           for (var g in data.docs) {
             guestList.add(g.data() as Guest);
           }
-        //  printOldest(guestList);
-      //    print("Guest Data Time Check: ");
           guestDataTimeCheck();
 
           List<ExcelDataRow> _buildReportDataRows() {
@@ -151,7 +147,7 @@ class _GetGuestDataState extends State<GetGuestData> {
                 source: gdc(guestList),
                 columnWidthMode: ColumnWidthMode.fill,
                 allowSorting: true,
-                allowMultiColumnSorting: true,
+              //  allowMultiColumnSorting: true,
                 columns: <GridColumn>[
                   GridColumn(
                       columnName: 'vName',

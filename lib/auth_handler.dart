@@ -5,7 +5,7 @@ import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:tqwcoviddata/get_guest_data.dart';
 import 'dart:async';
 import 'home.dart';
-/*
+
 class AuthHandler {
   OAuthProvider provider = OAuthProvider('microsoft.com');
 
@@ -54,5 +54,5 @@ class AuthHandler {
       }
     });
   }
+
 }
-*/

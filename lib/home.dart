@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:tqwcoviddata/email_form.dart';
+import 'package:tqwcoviddata/login_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'get_guest_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,6 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("made it to home:build");
     const _url = 'https://tqw.at';
     void _launchURL() async => await canLaunch(_url)
         ? await launch(_url)
@@ -44,44 +47,15 @@ class _HomeScreenState extends State<HomeScreen> {
             )),
         backgroundColor: Colors.black,
       ),
-      body: Padding(
-          padding: const EdgeInsets.all(32.0),
-          //      padding: const EdgeInsets.fromLTRB(32.0,32.0,32.0,0),
-          child: ListView(
-            //mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Center(
-                  child: GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: _launchURL, // handle your image tap here
-                      child: const Image(
-                        image: AssetImage('graphics/tqwlogo.jfif'),
-                      ))),
-              TextField(
-                  controller: pwCon,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Password',
-                  )),
-              ElevatedButton(
-                  onPressed: () => {
-                        if (pwCon.text.toString() == "Tanz5455")
-                          {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return GetGuestData();
-                            }))
-                          }
-                        else
-                          const ScaffoldMessenger(
-                              child:
-                                  SnackBar(content: Text("Falsches Passwort")))
-                      },
-                  child: const Text("Check")), //    Center(child:),
+      body: Builder(
+        builder: (BuildContext context) {
+          return ListView(
+            padding: const EdgeInsets.all(8),
+            children: const <Widget>[
+              LoginPage(),
             ],
-          )),
-      // This trailing comma makes auto-formatting nicer for build methods.
-    );
+          );
+        },
+      ),);
   }
 }
