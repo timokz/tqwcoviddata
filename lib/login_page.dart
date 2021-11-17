@@ -25,7 +25,6 @@ class LoginPage extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
-    login();
     return const EmailPasswordForm();
   }
 }
