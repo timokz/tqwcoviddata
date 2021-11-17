@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:email_validator/email_validator.dart';
+import 'package:tqwcoviddata/get_guest_data.dart';
 import 'snackbar_helper.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -30,7 +30,7 @@ class _EmailPasswordFormState extends State<EmailPasswordForm> {
               Container(
                 alignment: Alignment.center,
                 child: const Text(
-                  'Sign in with email and password',
+                  'Contact-Tracing Authentifizierung',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
@@ -41,7 +41,7 @@ class _EmailPasswordFormState extends State<EmailPasswordForm> {
                 controller: _emailController,
                 decoration: const InputDecoration(labelText: 'Email'),
                 validator: (String? value) {
-                  if (value!.isEmpty) return 'Please enter some text';
+                  if (value!.isEmpty) return 'Email leer oder falsch';
                   return null;
                 },
               ),
@@ -52,10 +52,16 @@ class _EmailPasswordFormState extends State<EmailPasswordForm> {
                 controller: _passwordController,
                 decoration: const InputDecoration(labelText: 'Password'),
                 validator: (String? value) {
-                  if (value!.isEmpty) return 'Please enter some text';
+                  if (value!.isEmpty) return 'Passwort leer oder falsch';
                   return null;
                 },
                 obscureText: true,
+                onFieldSubmitted: (value) async {
+                  if (_formKey.currentState!.validate()) {
+                    await _signInWithEmailAndPassword();
+                    navOnAuth();
+                  }
+                },
               ),
               const SizedBox(
                 height: 10,
@@ -64,10 +70,11 @@ class _EmailPasswordFormState extends State<EmailPasswordForm> {
                 padding: const EdgeInsets.only(top: 16),
                 alignment: Alignment.center,
                 child: ElevatedButton(
-                  child: const Text('Sign In'),
+                  child: const Text('Anmelden'),
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       await _signInWithEmailAndPassword();
+                      navOnAuth();
                     }
                   },
                 ),
@@ -94,14 +101,20 @@ class _EmailPasswordFormState extends State<EmailPasswordForm> {
         password: _passwordController.text,
       ))
           .user!;
-      ScaffoldSnackbar.of(context).show('${user.email} signed in');
+      ScaffoldSnackbar.of(context).show('${user.email} authentifiziert');
     } catch (e) {
-      ScaffoldSnackbar.of(context)
-          .show('Failed to sign in with Email & Password');
+      ScaffoldSnackbar.of(context).show('Auth nicht erfolgreich');
+    }
+  }
+
+  navOnAuth() {
+    if (FirebaseAuth.instance.currentUser != null) {
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => const GetGuestData()));
     }
   }
 }
-
+/*
 class _EmailLinkSignInSection extends StatefulWidget {
   const _EmailLinkSignInSection({Key? key}) : super(key: key);
 
@@ -186,4 +199,4 @@ class _EmailLinkSignInSectionState extends State<_EmailLinkSignInSection> {
       ScaffoldSnackbar.of(context).show('Sending email failed');
     }
   }
-}
+} */
