@@ -1,11 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:tqwcoviddata/email_form.dart';
 import 'package:tqwcoviddata/login_page.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'get_guest_data.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -20,11 +17,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void dispose() {
     pwCon.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    print("made it to home:build");
     const _url = 'https://tqw.at';
     void _launchURL() async => await canLaunch(_url)
         ? await launch(_url)

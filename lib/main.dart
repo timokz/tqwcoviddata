@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_app_check/firebase_app_check.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tqwcoviddata/get_guest_data.dart';
 import 'dart:async';
 import 'home.dart';
 
@@ -52,8 +49,6 @@ class _AppState extends State<App> {
       future: _initialization,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          print("made it to snapshot error ");
-
           return const SnackBar(
               content: Text(
                   "Database Connection failed to establish. Please try again."));
