@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:tqwcoviddata/login_page.dart';
+import 'package:tqwcoviddata/email_form.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -49,10 +49,11 @@ class _HomeScreenState extends State<HomeScreen> {
           return ListView(
             padding: const EdgeInsets.all(8),
             children: const <Widget>[
-              LoginPage(),
+              EmailPasswordForm(),
             ],
           );
         },
-      ),);
+      ),
+    );
   }
 }
