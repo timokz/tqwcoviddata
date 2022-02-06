@@ -30,17 +30,6 @@ class _GetGuestDataState extends State<GetGuestData> {
           fromFirestore: (snapshots, _) => Guest.fromJson(snapshots.data()!),
           toFirestore: (guest, _) => guest.toJson(),
         );
-/*
-    void printOldest(List<Guest> guestList) {
-      print("oldest entry: ");
-      Guest oldest = guestList.first;
-      for (var g in guestList){
-        if (g.entryTime.isBefore(oldest.entryTime)) {
-          oldest = g;
-        }
-      }
-      print (oldest.toString());
-    } */
 
     //checks if any Guest entries are older than 28 days, and removes them from the DB
     void guestDataTimeCheck() {
@@ -136,9 +125,6 @@ class _GetGuestDataState extends State<GetGuestData> {
                   IconButton(
                       icon: const Icon(Icons.download_rounded),
                       onPressed: () => exportDataGridToExcel()),
-                  //     IconButton(
-                  //     onPressed: exportDataGridToExcel,
-                  //         icon: const Icon(Icons.airplane_ticket))
                 ],
               ),
               body: SfDataGrid(
@@ -146,7 +132,7 @@ class _GetGuestDataState extends State<GetGuestData> {
                 source: gdc(guestList),
                 columnWidthMode: ColumnWidthMode.fill,
                 allowSorting: true,
-              //  allowMultiColumnSorting: true,
+                //  allowMultiColumnSorting: true,
                 columns: <GridColumn>[
                   GridColumn(
                       columnName: 'vName',
@@ -186,86 +172,7 @@ class _GetGuestDataState extends State<GetGuestData> {
                           alignment: Alignment.centerLeft,
                           child: const Text("TEL"))),
                 ],
-              )
-
-              /* Padding(
-                  padding: const EdgeInsets.all(64.0),
-                  child: SizedBox(
-                      width: double.infinity,
-                      child: ListView.builder(
-                          itemCount: data.size,
-                          itemBuilder: (context, index) {
-                            guestList.add(data.docs[index].data() as Guest);
-                            return GuestItem(
-                              data.docs[index].reference
-                                  as DocumentReference<Guest>,
-                              data.docs[index].data() as Guest,
-                            );
-                          })
-                      ) // This trailing comma makes auto-formatting nicer for build methods.
-                  ) */
-              );
+              ));
         });
   }
 }
-
-/*
-   return StreamBuilder<QuerySnapshot<Guest>>(
-      stream: guestRef.snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return Center(
-            child: Text(snapshot.error.toString()),
-          );
-        }
-
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        print("Guest Data Time Check: ");
-        guestDataTimeCheck();
-        final data = snapshot.requireData;
-
-        return Scaffold(
-            backgroundColor: const Color(0xffffffff),
-            appBar: AppBar(
-              title: const Text("TQW Guest Data"),
-              backgroundColor: Colors.black,
-              actions: <Widget>[
-                IconButton(
-                    icon: const Icon(Icons.settings),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const HomeScreen()));
-                    })
-              ],
-            ),
-            body: SizedBox(
-                width: double.infinity,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: DataTable(rows: <DataRow>[
-                    //   for (int i = 0; i < snapshot.data!.docs.length; i++)
-                    //    buildDataRow(snapshot.data!.docs![i]),
-                  ], columns: const <DataColumn>[
-                    DataColumn(
-                      label: Text(
-                        'Name',
-                      ),
-                    ),
-                    DataColumn(
-                      label: Text(
-                        'Location',
-                      ),
-                    ),
-                    DataColumn(
-                      label: Text(
-                        'Entry Time',
-                      ),
-                    ),
-                  ]),
-                )));
-      },
-    ); */

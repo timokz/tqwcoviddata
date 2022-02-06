@@ -6,7 +6,7 @@ import 'home.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp( const App()); //ProviderScope(child: App()));
+  runApp(const App()); //ProviderScope(child: App()));
 }
 
 class App extends StatefulWidget {
@@ -53,20 +53,17 @@ class _AppState extends State<App> {
               content: Text(
                   "Database Connection failed to establish. Please try again."));
         }
-// Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
           return MaterialApp(
-            title: 'tqwcoviddata',
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-              primaryColor: Colors.black,
-              backgroundColor: const Color(0xffffffff),
-              fontFamily: 'Roboto',
-            ),
-           // home: const GetGuestData());
-               home: const HomeScreen());
+              title: 'tqwcoviddata',
+              debugShowCheckedModeBanner: false,
+              theme: ThemeData(
+                primaryColor: Colors.black,
+                backgroundColor: const Color(0xffffffff),
+                fontFamily: 'Roboto',
+              ),
+              home: const HomeScreen());
         }
-// Otherwise, show something whilst waiting for initialization to complete
         return const CircularProgressIndicator(
           backgroundColor: Color(0x0000000c),
           value: 12,

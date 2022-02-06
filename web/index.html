@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="TQW CONTACT TRACING">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="covidreg">
+  <link rel="apple-touch-icon" href="favicon.ico">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  
+  <title>covidreg</title>
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+<script>
+  var serviceWorkerVersion = null;
+  var scriptLoaded = false;
+  function loadMainDartJs() {
+    if (scriptLoaded) {
+      return;
+    }
+    scriptLoaded = true;
+    var scriptTag = document.createElement('script');
+    scriptTag.src = 'main.dart.js';
+    scriptTag.type = 'application/javascript';
+    document.body.append(scriptTag);
+  }
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+
+      var serviceWorkerUrl = 'flutter_service_worker.js?v=' + serviceWorkerVersion;
+      navigator.serviceWorker.register(serviceWorkerUrl)
+              .then((reg) => {
+                function waitForActivation(serviceWorker) {
+                  serviceWorker.addEventListener('statechange', () => {
+                    if (serviceWorker.state == 'activated') {
+                      console.log('Installed new service worker.');
+                      loadMainDartJs();
+                    }
+                  });
+                }
+                if (!reg.active && (reg.installing || reg.waiting)) {
+
+                  waitForActivation(reg.installing || reg.waiting);
+                } else if (!reg.active.scriptURL.endsWith(serviceWorkerVersion)) {
+
+                  console.log('New service worker available.');
+                  reg.update();
+                  waitForActivation(reg.installing);
+                } else {
+                  console.log('Loading app from service worker.');
+                  loadMainDartJs();
+                }
+              });
+
+      setTimeout(() => {
+        if (!scriptLoaded) {
+          console.warn(
+                  'Failed to load app from service worker. Falling back to plain <script> tag.',
+          );
+          loadMainDartJs();
+        }
+      }, 4000);
+    });
+  } else {
+    loadMainDartJs();
+  }
+</script>
+
+<script>self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;</script>
+<script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app-check.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-auth.js"></script>
+
+<script>
+  // Firebase configuration
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyB_05Mmk0IYfmbL3E9pzoFLRJBi0Nh1lkQ",
+    authDomain: "tqwcovidreg.firebaseapp.com",
+    databaseURL: "https://tqwcovidreg-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "tqwcovidreg",
+    storageBucket: "tqwcovidreg.appspot.com",
+    messagingSenderId: "1068687754897",
+    appId: "1:1068687754897:web:08f17abf52c0392fe3a130",
+    measurementId: "G-WY1JM934KL"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  firebase.getAnalytics(app);
+ // firebase.appCheck().activate('6LfmSaQcAAAAAIONnq9PoTTXA4DJ9T9z_Dpsbi4E', true);
+
+</script>
+</body>
+</html>
