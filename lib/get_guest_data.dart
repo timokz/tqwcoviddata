@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'guest.dart';
 import 'guest_data_source.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import 'package:syncfusion_flutter_datagrid_export/export.dart';
 import 'dart:convert';
 
 // ignore: avoid_web_libraries_in_flutter
@@ -44,7 +43,6 @@ class _GetGuestDataState extends State<GetGuestData> {
         for (DocumentSnapshot doc in query.docs) {
           Map<String, dynamic> map = doc.data() as Map<String, dynamic>;
           DateTime dt = (map['entryTime'] ??= Timestamp.now()).toDate();
-          // print(map['n_name'] + "  " + dt.toString());
           FirebaseFirestore.instance.collection('guests').doc(doc.id).delete();
         }
       });
@@ -96,10 +94,6 @@ class _GetGuestDataState extends State<GetGuestData> {
           }
 
           Future<void> exportDataGridToExcel() async {
-            //  final Workbook workbook = _key.currentState!.exportToExcelWorkbook();
-
-            //  final List<int> bytes = workbook.saveAsStream();
-            // File('DataGrid.xlsx').writeAsBytes(bytes, flush: true);
             final Workbook workbook = Workbook();
             final Worksheet sheet = workbook.worksheets[0];
             sheet.importList(guestList, 1, 1, true);
