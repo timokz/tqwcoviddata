@@ -32,9 +32,7 @@ class _AppState extends State<App> {
     try {
       // Wait for Firebase to initialize and set `_initialized` state to true
       await Firebase.initializeApp();
-      setState(() {
-        _initialized = true;
-      });
+      setState(() {});
     } catch (e) {
       // Set `_error` state to true if Firebase initialization fails
       setState(() {
