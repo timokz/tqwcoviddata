@@ -6,17 +6,18 @@ import 'home.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const App()); //ProviderScope(child: App()));
+  runApp(const TqwDataApp()); //ProviderScope(child: App()));
 }
-
-class App extends StatefulWidget {
-  const App({Key? key}) : super(key: key);
+/// The entry point of the application.
+///
+/// Returns a [MaterialApp].
+class TqwDataApp extends StatefulWidget {
+  const TqwDataApp({Key? key}) : super(key: key);
 
   @override
-  _AppState createState() => _AppState();
+  _TqwDataAppState createState() => _TqwDataAppState();
 }
-
-class _AppState extends State<App> {
+class _TqwDataAppState extends State<TqwDataApp> {
   // Set default `_initialized` and `_error` state to false
   bool _initialized = false;
   bool _error = false;

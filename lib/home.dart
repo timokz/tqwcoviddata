@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:tqwcoviddata/email_form.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+/// Provides Appbar and entry to EmailPasswordForm
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -12,14 +11,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  TextEditingController pwCon = TextEditingController();
-
-  @override
-  void dispose() {
-    pwCon.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     const _url = 'https://tqw.at';
@@ -34,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
             style: const ButtonStyle(),
             onPressed: _launchURL,
             child: const Text(
-              "home", //  Text("TQW Covid Form",
+              "TQW Home",
               style: TextStyle(
                 decorationColor: Colors.black,
                 fontWeight: FontWeight.bold,
