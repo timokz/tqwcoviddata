@@ -25,14 +25,14 @@ class _HomeScreenState extends State<HomeScreen> {
             style: const ButtonStyle(),
             onPressed: _launchURL,
             child: const Text(
-              "TQW Home",
+              'TQW Home',
               style: TextStyle(
                 decorationColor: Colors.black,
                 fontWeight: FontWeight.bold,
-                fontFamily: "Roboto",
+                fontFamily: 'Roboto',
                 //    fontStyle: FontStyle.italic,
               ),
-            )),
+            ),),
         backgroundColor: Colors.black,
       ),
       body: Builder(

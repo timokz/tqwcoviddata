@@ -1,16 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tqwcoviddata/get_guest_data.dart';
-import 'snackbar_helper.dart';
+import 'package:tqwcoviddata/snackbar_helper.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
-///
+///[EmailPasswordForm]
 /// Builds the email and pw forms required to register with firebase
 ///
 /// Uses contents of TextFormFields to register with firebaseAuth
 /// Additional functionality to reset PW and remember TextFormFields
+///
 class EmailPasswordForm extends StatefulWidget {
+  ///ctor
   const EmailPasswordForm({Key? key}) : super(key: key);
 
   @override
@@ -20,7 +22,7 @@ class EmailPasswordForm extends StatefulWidget {
 class _EmailPasswordFormState extends State<EmailPasswordForm> {
   ///
   /// _formKey [GlobalKey<FormState>] global key
-  /// _emaillController [TextFormfield] for email value
+  /// _emaillController TextFormfield] for email value
   /// _emaillController [TextFormfield] for password value
   ///
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -57,7 +59,7 @@ class _EmailPasswordFormState extends State<EmailPasswordForm> {
                         autofillHints: const [AutofillHints.email],
                         decoration: const InputDecoration(labelText: 'Email'),
                         validator: (String? value) {
-                          if (value!.isEmpty) return 'Email leer oder falsch';
+                          if (value!.isEmpty) return 'Email leer';
                           return null;
                         },
                       ),
@@ -70,8 +72,9 @@ class _EmailPasswordFormState extends State<EmailPasswordForm> {
                         decoration:
                             const InputDecoration(labelText: 'Password'),
                         validator: (String? value) {
-                          if (value!.isEmpty)
-                            return 'Passwort leer oder falsch';
+                          if (value!.isEmpty) {
+                            return 'Passwort leer';
+                          }
                           return null;
                         },
                         obscureText: true,
@@ -96,9 +99,9 @@ class _EmailPasswordFormState extends State<EmailPasswordForm> {
                           setState(() {
                             rememberMe = value!;
                           });
-                        }),
+                        },),
                     const Text(
-                      "Remember Me",
+                      'Remember Me',
                       style: TextStyle(fontStyle: FontStyle.italic),
                     ),
                     const Spacer(),
@@ -130,7 +133,7 @@ class _EmailPasswordFormState extends State<EmailPasswordForm> {
 
   Future<void> _signInWithEmailAndPassword() async {
     try {
-      final User user = (await _auth.signInWithEmailAndPassword(
+      final user = (await _auth.signInWithEmailAndPassword(
         email: _emailController.text,
         password: _passwordController.text,
       ))
@@ -143,20 +146,20 @@ class _EmailPasswordFormState extends State<EmailPasswordForm> {
 
   Future<void> sendPasswordResetEmail() async {
     try {
-      _auth.sendPasswordResetEmail(email: _emailController.text);
+      await _auth.sendPasswordResetEmail(email: _emailController.text);
     } catch (e) {
-      ScaffoldSnackbar.of(context).show('Error: {}' + e.toString());
+      ScaffoldSnackbar.of(context).show('Error: {}$e');
     }
   }
 
-  confirmReset(String code, String newPassword) {
+  void confirmReset(String code, String newPassword) {
     _auth.confirmPasswordReset(code: code, newPassword: newPassword);
   }
 
-  navOnAuth() {
+  void navOnAuth() {
     if (FirebaseAuth.instance.currentUser != null) {
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) => const GetGuestData()));
+      Navigator.pushReplacement<void, void>(context,
+          MaterialPageRoute(builder: (context) => const GetGuestData()),);
     }
   }
 }
