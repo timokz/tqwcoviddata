@@ -10,7 +10,6 @@ final logger = Logger(
 /// support conversion from and too db Objects
 @immutable
 class Guest {
-  ///ctor
   Guest(
       {required this.vName,
       required this.nName,

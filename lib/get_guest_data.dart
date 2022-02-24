@@ -105,7 +105,7 @@ class _GetGuestDataState extends State<GetGuestData> {
             final workbook = Workbook();
             final dataRows = _buildReportDataRows();
 
-            final sheet = workbook.worksheets[0]
+           workbook.worksheets[0]
                 ..importList(guestList, 1, 1, true)
                 ..importData(dataRows, 1, 1);
 

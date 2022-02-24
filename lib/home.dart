@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tqwcoviddata/email_form.dart';
+import 'package:tqwcoviddata/pw_reset_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Provides Appbar and entry to EmailPasswordForm
@@ -14,25 +15,45 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     const _url = 'https://tqw.at';
-    void _launchURL() async => await canLaunch(_url)
+    Future<void> _launchURL() async => await canLaunch(_url)
         ? await launch(_url)
-        : throw 'Could not connect to $_url';
+        : throw Exception('Could not connect to $_url');
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xffffffff),
       appBar: AppBar(
         title: TextButton(
+          style: const ButtonStyle(),
+          onPressed: _launchURL,
+          child: const Text(
+            'TQW Home',
+            style: TextStyle(
+              decorationColor: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Roboto',
+              //    fontStyle: FontStyle.italic,
+            ),
+          ),
+        ),
+        actions: [
+          TextButton(
             style: const ButtonStyle(),
-            onPressed: _launchURL,
+            onPressed: () {
+              showDialog<void>(context: context, builder: (BuildContext context){
+              return const PwReset();
+            },);
+            },
             child: const Text(
-              'TQW Home',
+              'Reset Password',
               style: TextStyle(
                 decorationColor: Colors.black,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Roboto',
                 //    fontStyle: FontStyle.italic,
               ),
-            ),),
+            ),
+          ),
+        ],
         backgroundColor: Colors.black,
       ),
       body: Builder(

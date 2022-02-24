@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-import 'home.dart';
+import 'package:tqwcoviddata/home.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const TqwDataApp()); //ProviderScope(child: App()));
@@ -20,9 +20,6 @@ class TqwDataApp extends StatefulWidget {
   _TqwDataAppState createState() => _TqwDataAppState();
 }
 class _TqwDataAppState extends State<TqwDataApp> {
-  // Set default `_initialized` and `_error` state to false
-  final _initialized = false;
-  bool _error = false;
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
   @override

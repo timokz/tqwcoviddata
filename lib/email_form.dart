@@ -5,14 +5,12 @@ import 'package:tqwcoviddata/snackbar_helper.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
-///[EmailPasswordForm]
 /// Builds the email and pw forms required to register with firebase
 ///
 /// Uses contents of TextFormFields to register with firebaseAuth
 /// Additional functionality to reset PW and remember TextFormFields
 ///
 class EmailPasswordForm extends StatefulWidget {
-  ///ctor
   const EmailPasswordForm({Key? key}) : super(key: key);
 
   @override
@@ -20,11 +18,7 @@ class EmailPasswordForm extends StatefulWidget {
 }
 
 class _EmailPasswordFormState extends State<EmailPasswordForm> {
-  ///
-  /// _formKey [GlobalKey<FormState>] global key
-  /// _emaillController TextFormfield] for email value
-  /// _emaillController [TextFormfield] for password value
-  ///
+  /// formKey and TextControllers for [TextFormField]s in build method
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -94,12 +88,13 @@ class _EmailPasswordFormState extends State<EmailPasswordForm> {
                 Row(
                   children: [
                     Checkbox(
-                        value: rememberMe,
-                        onChanged: (bool? value) {
-                          setState(() {
-                            rememberMe = value!;
-                          });
-                        },),
+                      value: rememberMe,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          rememberMe = value!;
+                        });
+                      },
+                    ),
                     const Text(
                       'Remember Me',
                       style: TextStyle(fontStyle: FontStyle.italic),
@@ -144,22 +139,16 @@ class _EmailPasswordFormState extends State<EmailPasswordForm> {
     }
   }
 
-  Future<void> sendPasswordResetEmail() async {
-    try {
-      await _auth.sendPasswordResetEmail(email: _emailController.text);
-    } catch (e) {
-      ScaffoldSnackbar.of(context).show('Error: {}$e');
-    }
-  }
-
   void confirmReset(String code, String newPassword) {
     _auth.confirmPasswordReset(code: code, newPassword: newPassword);
   }
 
   void navOnAuth() {
     if (FirebaseAuth.instance.currentUser != null) {
-      Navigator.pushReplacement<void, void>(context,
-          MaterialPageRoute(builder: (context) => const GetGuestData()),);
+      Navigator.pushReplacement<void, void>(
+        context,
+        MaterialPageRoute(builder: (context) => const GetGuestData()),
+      );
     }
   }
 }
