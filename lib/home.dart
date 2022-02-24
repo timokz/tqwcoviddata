@@ -40,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
             style: const ButtonStyle(),
             onPressed: () {
               showDialog<void>(context: context, builder: (BuildContext context){
-              return const PwReset();
+              return PwReset();
             },);
             },
             child: const Text(

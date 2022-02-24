@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tqwcoviddata/snackbar_helper.dart';
 
 class PwReset extends StatelessWidget {
-  const PwReset({Key? key}) : super(key: key);
+  PwReset({Key? key}) : super(key: key);
+  final _emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -15,13 +17,26 @@ class PwReset extends StatelessWidget {
               title: const Text('Reset Password'),
               content: const Text('Email to reset Password for:'),
               actions: <Widget>[
-                TextFormField(),
+                TextFormField(
+                  controller: _emailController,
+                  autofillHints: const [AutofillHints.email],
+                  decoration: const InputDecoration(labelText: 'Email'),
+                  validator: (String? value) {
+                    if (value!.isEmpty) return 'Email leer';
+                    return null;
+                  },
+                ),
                 TextButton(
                   onPressed: () => Navigator.pop(context, 'Cancel'),
                   child: const Text('Cancel'),
                 ),
                 TextButton(
-                  onPressed: () => Navigator.pop(context, 'OK'),
+                  onPressed: () async {
+                    await sendPasswordResetEmail(context);
+                    Navigator.pop(context, 'OK');
+                    Navigator.pop(context, 'PWReset');
+
+                  },
                   child: const Text('OK'),
                 ),
               ],
@@ -32,12 +47,13 @@ class PwReset extends StatelessWidget {
       ],
     );
   }
-}
 
-Future<void> sendPasswordResetEmail() async {
-  try {
-    await _auth.sendPasswordResetEmail(email: _emailController.text);
-  } catch (e) {
-    ScaffoldSnackbar.of(context).show('Error: {}$e');
+  Future<void> sendPasswordResetEmail(BuildContext context) async {
+    final _auth = FirebaseAuth.instance;
+    try {
+      await _auth.sendPasswordResetEmail(email: _emailController.text);
+    } catch (e) {
+      ScaffoldSnackbar.of(context).show('Error: {} $e');
+    }
   }
 }
