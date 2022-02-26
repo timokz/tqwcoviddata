@@ -8,17 +8,21 @@ class GuestDataSource extends DataGridSource {
   GuestDataSource({required List<Guest> guests}) {
     _guests = guests
         .map<DataGridRow>(
-          (e) => DataGridRow(
+          (g) => DataGridRow(
             cells: [
-              DataGridCell<String>(columnName: 'name', value: e.nName),
-              DataGridCell<String>(columnName: 'name', value: e.vName),
-              DataGridCell<String>(columnName: 'location', value: e.location),
+              DataGridCell<String>(columnName: 'name', value: g.nName),
+              DataGridCell<String>(columnName: 'name', value: g.vName),
+              DataGridCell<String>(columnName: 'location', value: g.location),
+              DataGridCell<String>(
+                columnName: 'Entry Date',
+                value: DateFormat('yyyy-MM-dd').format(g.entryTime),
+              ),
               DataGridCell<String>(
                 columnName: 'Entry Time',
-                value: DateFormat('yyyy-MM-dd – kk:mm').format(e.entryTime),
+                value: DateFormat('kk:mm').format(g.entryTime),
               ),
-              DataGridCell<String>(columnName: 'email', value: e.email),
-              DataGridCell<String>(columnName: 'phone', value: e.phone),
+              DataGridCell<String>(columnName: 'email', value: g.email),
+              DataGridCell<String>(columnName: 'phone', value: g.phone),
             ],
           ),
         )

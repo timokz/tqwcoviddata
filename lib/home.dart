@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tqwcoviddata/email_form.dart';
+import 'package:tqwcoviddata/get_guest_data.dart';
 import 'package:tqwcoviddata/pw_reset_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -60,7 +61,10 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (BuildContext context) {
           return ListView(
             padding: const EdgeInsets.all(8),
-            children: const <Widget>[
+            children:  <Widget>[
+              FloatingActionButton(onPressed: () =>
+          navOnAuth(),
+              ),
               EmailPasswordForm(),
             ],
           );
@@ -68,4 +72,12 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+  void navOnAuth() {
+      Navigator.pushReplacement<void, void>(
+        context,
+        MaterialPageRoute(builder: (context) => const GetGuestData()),
+      );
+
+  }
+
 }

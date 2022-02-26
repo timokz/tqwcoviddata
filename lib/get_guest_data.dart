@@ -90,9 +90,13 @@ class _GetGuestDataState extends State<GetGuestData> {
                 ExcelDataCell(columnHeader: 'name', value: e.vName),
                 ExcelDataCell(columnHeader: 'location', value: e.location),
                 ExcelDataCell(
-                    columnHeader: 'Entry Time',
+                    columnHeader: 'Entry Date',
                     value:
-                        DateFormat('yyyy-MM-dd – kk:mm').format(e.entryTime),),
+                        DateFormat('yyyy-MM-dd').format(e.entryTime),),
+                ExcelDataCell(
+                  columnHeader: 'Entry Time',
+                  value:
+                  DateFormat('kk:mm').format(e.entryTime),),
                 ExcelDataCell(columnHeader: 'email', value: e.email),
                 ExcelDataCell(columnHeader: 'phone', value: e.phone),
               ],);
@@ -162,7 +166,13 @@ class _GetGuestDataState extends State<GetGuestData> {
                       label: Container(
                           padding: const EdgeInsets.all(16),
                           alignment: Alignment.centerLeft,
-                          child: const Text('Zeit'),),),
+                          child: const Text('Datum'),),),
+                  GridColumn(
+                    columnName: 'entryTime',
+                    label: Container(
+                      padding: const EdgeInsets.all(16),
+                      alignment: Alignment.centerLeft,
+                      child: const Text('Zeit'),),),
                   GridColumn(
                       columnName: 'email',
                       label: Container(

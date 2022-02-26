@@ -27,15 +27,17 @@ class PwReset extends StatelessWidget {
                   },
                 ),
                 TextButton(
-                  onPressed: () => Navigator.pop(context, 'Cancel'),
+                  onPressed: () => {
+                    Navigator.pop(context, 'Cancel'),
+                    Navigator.pop(context, 'PWReset')
+                  },
                   child: const Text('Cancel'),
                 ),
                 TextButton(
                   onPressed: () async {
                     await sendPasswordResetEmail(context);
-                    Navigator.pop(context, 'OK');
+                    Navigator.pop(context, 'OK'); //should be fine since stateless
                     Navigator.pop(context, 'PWReset');
-
                   },
                   child: const Text('OK'),
                 ),
@@ -56,4 +58,5 @@ class PwReset extends StatelessWidget {
       ScaffoldSnackbar.of(context).show('Error: {} $e');
     }
   }
+
 }
