@@ -1,6 +1,6 @@
 # Covid Contact-Tracing Dashboard
 
-##Features
+## Features
 
 - Syncfusion datatable to display and sort data
 - Login via firebaseAuth, PW reset function provided - no register frontend necessary,
@@ -11,7 +11,7 @@ all clients (data protection officials) set up in firebase console.
 - All entries are deleted after 28 - days, no firebase function/ cronjob, but via the application itself - 
 so that free firebase versions can run it. 
 
-##App
+## App
 
 Dashboard to display data from guests registered according to Contact Tracing laws in Austria.
 
